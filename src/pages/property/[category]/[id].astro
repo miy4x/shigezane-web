@@ -256,28 +256,52 @@ const currentYear = new Date().getFullYear();
                         <!-- メイン画像 -->
                         <div class="relative w-full h-[400px] rounded-lg overflow-hidden group">
                            {property.images && property.images.length > 0 ? (
-                                <img 
-                                    id="main-image"
-                                    src={property.images[0]}
-                                    alt={pageTitle}
-                                    class="w-full h-full object-cover transition-opacity duration-300"
-                                />
+                                <>
+                                    <img 
+                                        id="main-image"
+                                        src={property.images[0]}
+                                        alt={pageTitle}
+                                        class="w-full h-full object-cover"
+                                        data-images={JSON.stringify(property.images)}
+                                        data-current-index="0"
+                                    />
+                                    {property.images.length > 1 && (
+                                        <>
+                                            <button 
+                                                class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 shadow-lg rounded-full p-3 transition-all z-10 transform hover:scale-110 active:scale-95"
+                                                onclick="navigateImage(-1)"
+                                                aria-label="Previous image"
+                                            >
+                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+                                            </button>
+                                            <button 
+                                                class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 shadow-lg rounded-full p-3 transition-all z-10 transform hover:scale-110 active:scale-95"
+                                                onclick="navigateImage(1)"
+                                                aria-label="Next image"
+                                            >
+                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                                            </button>
+                                            <div class="absolute bottom-4 right-4 bg-black/70 text-white text-sm px-4 py-1.5 rounded-full z-10 pointer-events-none font-bold tracking-wider shadow-md border border-white/20">
+                                                <span id="current-image-number">1</span> / {property.images.length}
+                                            </div>
+                                        </>
+                                    )}
+                                </>
                            ) : (
-                                <img 
-                                    src={`https://via.placeholder.com/800x600?text=No+Image`}
-                                    alt={pageTitle}
-                                    class="w-full h-full object-cover"
-                                />
+                                <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
+                                    <span class="text-lg font-medium">NO IMAGE</span>
+                                </div>
                            )}
                         </div>
 
                         <!-- サムネイル一覧 -->
                         {property.images && property.images.length > 1 && (
-                            <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                            <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide" id="thumbnail-container">
                                 {property.images.map((img: string, index: number) => (
                                     <button 
                                         class={`flex-shrink-0 w-20 h-20 rounded-md overflow-hidden border-2 transition-all ${index === 0 ? 'border-[#5AB9CE] opacity-100' : 'border-transparent opacity-70 hover:opacity-100'}`}
-                                        onclick={`updateMainImage(this, '${img}')`}
+                                        onclick={`switchImage(${index})`}
+                                        data-index={index}
                                     >
                                         <img 
                                             src={img} 
@@ -390,24 +414,72 @@ const currentYear = new Date().getFullYear();
     </div>
 
     <script is:inline>
-        function updateMainImage(btn, src) {
+        function switchImage(index) {
             const mainImage = document.getElementById('main-image');
+            const images = JSON.parse(mainImage.getAttribute('data-images'));
+            const container = document.getElementById('thumbnail-container');
+            const currentIndex = parseInt(mainImage.getAttribute('data-current-index') || '0');
             
-            // Update image source with fade effect
-            mainImage.style.opacity = '0';
-            setTimeout(() => {
-                mainImage.src = src;
-                mainImage.style.opacity = '1';
-            }, 150);
+            if (currentIndex === index) return;
 
-            // Update active state of buttons
-            const buttons = btn.parentElement.children;
-            for (let i = 0; i < buttons.length; i++) {
-                buttons[i].classList.remove('border-[#5AB9CE]', 'opacity-100');
-                buttons[i].classList.add('border-transparent', 'opacity-70');
-            }
-            btn.classList.remove('border-transparent', 'opacity-70');
-            btn.classList.add('border-[#5AB9CE]', 'opacity-100');
+            // 方向を判定（次へ or 前へ）
+            const direction = index > currentIndex ? 'next' : 'prev';
+            
+            // 一時的な画像要素を作成してアニメーション
+            const tempImg = document.createElement('img');
+            tempImg.src = images[index];
+            tempImg.className = 'w-full h-full object-cover absolute top-0 left-0';
+            tempImg.style.transform = direction === 'next' ? 'translateX(100%)' : 'translateX(-100%)';
+            tempImg.style.transition = 'transform 0.3s ease-out';
+            mainImage.parentElement.appendChild(tempImg);
+
+            // アニメーション実行
+            requestAnimationFrame(() => {
+                mainImage.style.transition = 'transform 0.3s ease-out';
+                mainImage.style.transform = direction === 'next' ? 'translateX(-100%)' : 'translateX(100%)';
+                tempImg.style.transform = 'translateX(0)';
+            });
+
+            // アニメーション完了後
+            setTimeout(() => {
+                mainImage.src = images[index];
+                mainImage.style.transform = '';
+                mainImage.style.transition = '';
+                mainImage.setAttribute('data-current-index', index);
+                tempImg.remove();
+                
+                // Update counter
+                const counter = document.getElementById('current-image-number');
+                if (counter) counter.textContent = index + 1;
+
+                // Update thumbnails active state
+                if (container) {
+                    const buttons = container.children;
+                    for (let i = 0; i < buttons.length; i++) {
+                        if (i === index) {
+                            buttons[i].classList.remove('border-transparent', 'opacity-70');
+                            buttons[i].classList.add('border-[#5AB9CE]', 'opacity-100');
+                            buttons[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                        } else {
+                            buttons[i].classList.remove('border-[#5AB9CE]', 'opacity-100');
+                            buttons[i].classList.add('border-transparent', 'opacity-70');
+                        }
+                    }
+                }
+            }, 300);
+        }
+
+        function navigateImage(direction) {
+            const mainImage = document.getElementById('main-image');
+            const images = JSON.parse(mainImage.getAttribute('data-images'));
+            let currentIndex = parseInt(mainImage.getAttribute('data-current-index') || '0');
+            
+            // Calculate new index
+            let newIndex = currentIndex + direction;
+            if (newIndex < 0) newIndex = images.length - 1;
+            if (newIndex >= images.length) newIndex = 0;
+            
+            switchImage(newIndex);
         }
     </script>
 </Layout>
