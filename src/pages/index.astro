@@ -257,7 +257,7 @@ const currentYear = new Date().getFullYear();
 		</div>
 
 		<!-- 賃貸物件 -->
-	<div id="rental-properties" class="property-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
+	<div id="rental-properties" class="property-grid">
 			{rentalProperties.map((property, index) => (
 			<a href={'/property/rental/' + property.id} class="property-card block hover:shadow-xl transition-shadow">
 					<div class="relative h-64 image-slider-container group">
@@ -756,10 +756,22 @@ const currentYear = new Date().getFullYear();
 
 		.property-grid {
 			display: grid;
-			grid-template-columns: repeat(3, 1fr);
+			grid-template-columns: repeat(1, 1fr) !important;
 			gap: 2rem !important;
 			row-gap: 2rem !important;
 			column-gap: 2rem !important;
+		}
+
+		@media (min-width: 768px) {
+			.property-grid {
+				grid-template-columns: repeat(2, 1fr) !important;
+			}
+		}
+
+		@media (min-width: 1024px) {
+			.property-grid {
+				grid-template-columns: repeat(3, 1fr) !important;
+			}
 		}
 
 		.property-card {
