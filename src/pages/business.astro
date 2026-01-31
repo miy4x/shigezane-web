@@ -1,0 +1,637 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="法人・オーナー様へ - 重実不動産">
+	<!-- ヒーロー -->
+	<section class="bg-gradient-to-r from-[#5AB9CE] to-[#7DD3E8] py-20">
+		<div class="container mx-auto px-4 text-center">
+			<div class="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 text-white text-sm mb-6">
+				<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+				</svg>
+				<span class="font-semibold">Business Partners</span>
+			</div>
+			<h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+				法人・オーナー様へ
+			</h1>
+			<p class="text-xl text-white/90 mb-8">
+				30年の実績と信頼。不動産業者様・物件オーナー様のビジネスをサポートします
+			</p>
+		</div>
+	</section>
+
+	<!-- タブ切り替え -->
+	<section class="bg-white py-8 sticky top-0 z-10 shadow-md">
+		<div class="container mx-auto px-4">
+			<div class="max-w-2xl mx-auto bg-gray-100 rounded-2xl p-2">
+				<div class="grid grid-cols-2 gap-2">
+					<button 
+						class="partner-tab active px-6 py-3 rounded-xl font-semibold transition-all bg-white shadow-lg text-gray-800"
+						data-target="agents"
+					>
+						<svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+						</svg>
+						不動産業者様
+					</button>
+					<button 
+						class="partner-tab px-6 py-3 rounded-xl font-semibold transition-all text-gray-600 hover:text-gray-800"
+						data-target="owners"
+					>
+						<svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+						</svg>
+						オーナー様
+					</button>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- 不動産業者様向けコンテンツ -->
+	<div id="agents-content" class="partner-content">
+		<!-- 取引実績 -->
+		<section class="container mx-auto px-4 py-16">
+			<div class="max-w-6xl mx-auto">
+				<h2 class="text-3xl font-bold text-gray-800 mb-12 text-center">B2B取引実績</h2>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+					<div class="text-center bg-gradient-to-br from-[#5AB9CE]/10 to-[#7DD3E8]/10 rounded-xl p-8 shadow-md">
+						<div class="text-5xl font-bold text-[#5AB9CE] mb-2">30社+</div>
+						<div class="text-xl font-semibold text-gray-800 mb-2">提携業者数</div>
+						<p class="text-gray-600">アパマンショップ様をはじめ多数の業者様と提携</p>
+					</div>
+
+					<div class="text-center bg-gradient-to-br from-[#5AB9CE]/10 to-[#7DD3E8]/10 rounded-xl p-8 shadow-md">
+						<div class="text-5xl font-bold text-[#5AB9CE] mb-2">50件/月</div>
+						<div class="text-xl font-semibold text-gray-800 mb-2">月間取引件数</div>
+						<p class="text-gray-600">安定した取引実績で信頼をいただいています</p>
+					</div>
+
+					<div class="text-center bg-gradient-to-br from-[#5AB9CE]/10 to-[#7DD3E8]/10 rounded-xl p-8 shadow-md">
+						<div class="text-5xl font-bold text-[#5AB9CE] mb-2">95%</div>
+						<div class="text-xl font-semibold text-gray-800 mb-2">業者様満足度</div>
+						<p class="text-gray-600">迅速かつ丁寧な対応で高い評価をいただいています</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- サービスフロー -->
+		<section class="bg-gray-50 py-16">
+			<div class="container mx-auto px-4">
+				<div class="max-w-5xl mx-auto">
+					<h2 class="text-3xl font-bold text-gray-800 mb-12 text-center">お取引の流れ</h2>
+					<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+						<div class="relative">
+							<div class="bg-white rounded-xl shadow-lg p-6 text-center h-full">
+								<div class="w-16 h-16 bg-[#5AB9CE] text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">1</div>
+								<h3 class="text-lg font-bold text-gray-800 mb-3">お問い合わせ</h3>
+								<p class="text-sm text-gray-600">
+									お電話またはメールにて物件情報をお送りください
+								</p>
+							</div>
+							<div class="hidden md:block absolute top-1/2 -right-3 transform -translate-y-1/2 z-10">
+								<svg class="w-6 h-6 text-[#5AB9CE]" fill="currentColor" viewBox="0 0 20 20">
+									<path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+								</svg>
+							</div>
+						</div>
+
+						<div class="relative">
+							<div class="bg-white rounded-xl shadow-lg p-6 text-center h-full">
+								<div class="w-16 h-16 bg-[#5AB9CE] text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">2</div>
+								<h3 class="text-lg font-bold text-gray-800 mb-3">物件確認</h3>
+								<p class="text-sm text-gray-600">
+									物件情報を確認し、即日〜翌営業日にご返答
+								</p>
+							</div>
+							<div class="hidden md:block absolute top-1/2 -right-3 transform -translate-y-1/2 z-10">
+								<svg class="w-6 h-6 text-[#5AB9CE]" fill="currentColor" viewBox="0 0 20 20">
+									<path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+								</svg>
+							</div>
+						</div>
+
+						<div class="relative">
+							<div class="bg-white rounded-xl shadow-lg p-6 text-center h-full">
+								<div class="w-16 h-16 bg-[#5AB9CE] text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">3</div>
+								<h3 class="text-lg font-bold text-gray-800 mb-3">条件調整</h3>
+								<p class="text-sm text-gray-600">
+									家賃や条件について柔軟に対応させていただきます
+								</p>
+							</div>
+							<div class="hidden md:block absolute top-1/2 -right-3 transform -translate-y-1/2 z-10">
+								<svg class="w-6 h-6 text-[#5AB9CE]" fill="currentColor" viewBox="0 0 20 20">
+									<path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+								</svg>
+							</div>
+						</div>
+
+						<div>
+							<div class="bg-white rounded-xl shadow-lg p-6 text-center h-full">
+								<div class="w-16 h-16 bg-[#5AB9CE] text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">4</div>
+								<h3 class="text-lg font-bold text-gray-800 mb-3">成約</h3>
+								<p class="text-sm text-gray-600">
+									契約書類の準備からアフターフォローまでサポート
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 強み -->
+		<section class="container mx-auto px-4 py-16">
+			<div class="max-w-6xl mx-auto">
+				<h2 class="text-3xl font-bold text-gray-800 mb-12 text-center">選ばれる3つの理由</h2>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+					<div class="bg-white rounded-xl shadow-lg p-8">
+						<div class="w-16 h-16 bg-[#5AB9CE]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+							<svg class="w-8 h-8 text-[#5AB9CE]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+							</svg>
+						</div>
+						<h3 class="text-xl font-bold text-gray-800 mb-4 text-center">即日対応可能</h3>
+						<p class="text-gray-600 leading-relaxed">
+							お問い合わせいただいた物件情報は、原則当日中にご返答。お急ぎの案件にも柔軟に対応いたします。
+						</p>
+					</div>
+
+					<div class="bg-white rounded-xl shadow-lg p-8">
+						<div class="w-16 h-16 bg-[#5AB9CE]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+							<svg class="w-8 h-8 text-[#5AB9CE]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+							</svg>
+						</div>
+						<h3 class="text-xl font-bold text-gray-800 mb-4 text-center">5,000件超の物件DB</h3>
+						<p class="text-gray-600 leading-relaxed">
+							岡山エリアを中心に、賃貸・売買・駐車場まで幅広い物件データベースを保有しています。
+						</p>
+					</div>
+
+					<div class="bg-white rounded-xl shadow-lg p-8">
+						<div class="w-16 h-16 bg-[#5AB9CE]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+							<svg class="w-8 h-8 text-[#5AB9CE]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+							</svg>
+						</div>
+						<h3 class="text-xl font-bold text-gray-800 mb-4 text-center">柔軟な条件対応</h3>
+						<p class="text-gray-600 leading-relaxed">
+							家賃交渉、契約条件、入居日調整など、様々な条件に柔軟に対応いたします。
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- お客様の声 -->
+		<section class="bg-gray-50 py-16">
+			<div class="container mx-auto px-4">
+				<div class="max-w-6xl mx-auto">
+					<h2 class="text-3xl font-bold text-gray-800 mb-12 text-center">お取引業者様の声</h2>
+					<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+						<div class="bg-white rounded-xl shadow-lg p-6">
+							<div class="flex items-center mb-4">
+								<div class="w-12 h-12 bg-[#5AB9CE]/10 rounded-full flex items-center justify-center mr-3">
+									<svg class="w-6 h-6 text-[#5AB9CE]" fill="currentColor" viewBox="0 0 20 20">
+										<path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"></path>
+									</svg>
+								</div>
+								<div>
+									<p class="font-bold text-gray-800">不動産仲介A社様</p>
+									<p class="text-sm text-gray-500">岡山市北区</p>
+								</div>
+							</div>
+							<p class="text-gray-600 leading-relaxed">
+								「対応が非常に早く、お客様にもスムーズにご案内できました。物件の詳細情報も正確で、安心してお取引させていただいています。」
+							</p>
+						</div>
+
+						<div class="bg-white rounded-xl shadow-lg p-6">
+							<div class="flex items-center mb-4">
+								<div class="w-12 h-12 bg-[#5AB9CE]/10 rounded-full flex items-center justify-center mr-3">
+									<svg class="w-6 h-6 text-[#5AB9CE]" fill="currentColor" viewBox="0 0 20 20">
+										<path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"></path>
+									</svg>
+								</div>
+								<div>
+									<p class="font-bold text-gray-800">アパマンショップB店様</p>
+									<p class="text-sm text-gray-500">岡山市中区</p>
+								</div>
+							</div>
+							<p class="text-gray-600 leading-relaxed">
+								「岡山エリアの物件に強く、お客様の希望条件に合った物件をすぐにご提案いただけます。地域密着ならではの情報量に助けられています。」
+							</p>
+						</div>
+
+						<div class="bg-white rounded-xl shadow-lg p-6">
+							<div class="flex items-center mb-4">
+								<div class="w-12 h-12 bg-[#5AB9CE]/10 rounded-full flex items-center justify-center mr-3">
+									<svg class="w-6 h-6 text-[#5AB9CE]" fill="currentColor" viewBox="0 0 20 20">
+										<path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"></path>
+									</svg>
+								</div>
+								<div>
+									<p class="font-bold text-gray-800">不動産管理C社様</p>
+									<p class="text-sm text-gray-500">岡山市南区</p>
+								</div>
+							</div>
+							<p class="text-gray-600 leading-relaxed">
+								「柔軟な条件対応で、難しい案件でも一緒に解決策を考えてくださいます。長年のお付き合いで、信頼できるパートナーです。」
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- オーナー様向けコンテンツ -->
+	<div id="owners-content" class="partner-content hidden">
+		<!-- 管理実績 -->
+		<section class="container mx-auto px-4 py-16">
+			<div class="max-w-6xl mx-auto">
+				<h2 class="text-3xl font-bold text-gray-800 mb-12 text-center">賃貸管理実績</h2>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+					<div class="text-center bg-gradient-to-br from-[#5AB9CE]/10 to-[#7DD3E8]/10 rounded-xl p-8 shadow-md">
+						<div class="text-5xl font-bold text-[#5AB9CE] mb-2">120件</div>
+						<div class="text-xl font-semibold text-gray-800 mb-2">管理物件数</div>
+						<p class="text-gray-600">アパート・マンション・戸建を総合管理</p>
+					</div>
+
+					<div class="text-center bg-gradient-to-br from-[#5AB9CE]/10 to-[#7DD3E8]/10 rounded-xl p-8 shadow-md">
+						<div class="text-5xl font-bold text-[#5AB9CE] mb-2">96%</div>
+						<div class="text-xl font-semibold text-gray-800 mb-2">入居率</div>
+						<p class="text-gray-600">空室対策で高い入居率を維持</p>
+					</div>
+
+					<div class="text-center bg-gradient-to-br from-[#5AB9CE]/10 to-[#7DD3E8]/10 rounded-xl p-8 shadow-md">
+						<div class="text-5xl font-bold text-[#5AB9CE] mb-2">8年</div>
+						<div class="text-xl font-semibold text-gray-800 mb-2">平均管理年数</div>
+						<p class="text-gray-600">長期的な信頼関係を築いています</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- サービスフロー -->
+		<section class="bg-gray-50 py-16">
+			<div class="container mx-auto px-4">
+				<div class="max-w-5xl mx-auto">
+					<h2 class="text-3xl font-bold text-gray-800 mb-12 text-center">管理開始までの流れ</h2>
+					<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+						<div class="relative">
+							<div class="bg-white rounded-xl shadow-lg p-6 text-center h-full">
+								<div class="w-16 h-16 bg-[#5AB9CE] text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">1</div>
+								<h3 class="text-lg font-bold text-gray-800 mb-3">ご相談</h3>
+								<p class="text-sm text-gray-600">
+									現状のお悩みやご要望をお聞かせください
+								</p>
+							</div>
+							<div class="hidden md:block absolute top-1/2 -right-3 transform -translate-y-1/2 z-10">
+								<svg class="w-6 h-6 text-[#5AB9CE]" fill="currentColor" viewBox="0 0 20 20">
+									<path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+								</svg>
+							</div>
+						</div>
+
+						<div class="relative">
+							<div class="bg-white rounded-xl shadow-lg p-6 text-center h-full">
+								<div class="w-16 h-16 bg-[#5AB9CE] text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">2</div>
+								<h3 class="text-lg font-bold text-gray-800 mb-3">物件査定</h3>
+								<p class="text-sm text-gray-600">
+									現地調査し、適正家賃や改善点をご提案
+								</p>
+							</div>
+							<div class="hidden md:block absolute top-1/2 -right-3 transform -translate-y-1/2 z-10">
+								<svg class="w-6 h-6 text-[#5AB9CE]" fill="currentColor" viewBox="0 0 20 20">
+									<path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+								</svg>
+							</div>
+						</div>
+
+						<div class="relative">
+							<div class="bg-white rounded-xl shadow-lg p-6 text-center h-full">
+								<div class="w-16 h-16 bg-[#5AB9CE] text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">3</div>
+								<h3 class="text-lg font-bold text-gray-800 mb-3">プラン提案</h3>
+								<p class="text-sm text-gray-600">
+									最適な管理プランと費用をご提案
+								</p>
+							</div>
+							<div class="hidden md:block absolute top-1/2 -right-3 transform -translate-y-1/2 z-10">
+								<svg class="w-6 h-6 text-[#5AB9CE]" fill="currentColor" viewBox="0 0 20 20">
+									<path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+								</svg>
+							</div>
+						</div>
+
+						<div>
+							<div class="bg-white rounded-xl shadow-lg p-6 text-center h-full">
+								<div class="w-16 h-16 bg-[#5AB9CE] text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">4</div>
+								<h3 class="text-lg font-bold text-gray-800 mb-3">管理開始</h3>
+								<p class="text-sm text-gray-600">
+									契約締結後、即座に管理業務を開始
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 強み -->
+		<section class="container mx-auto px-4 py-16">
+			<div class="max-w-6xl mx-auto">
+				<h2 class="text-3xl font-bold text-gray-800 mb-12 text-center">選ばれる3つの理由</h2>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+					<div class="bg-white rounded-xl shadow-lg p-8">
+						<div class="w-16 h-16 bg-[#5AB9CE]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+							<svg class="w-8 h-8 text-[#5AB9CE]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+							</svg>
+						</div>
+						<h3 class="text-xl font-bold text-gray-800 mb-4 text-center">空室対策のノウハウ</h3>
+						<p class="text-gray-600 leading-relaxed">
+							Webサイト・ポータルサイトへの掲載、内見対応、適正家賃の提案など、空室を埋めるための施策を実施。入居率96%を維持しています。
+						</p>
+					</div>
+
+					<div class="bg-white rounded-xl shadow-lg p-8">
+						<div class="w-16 h-16 bg-[#5AB9CE]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+							<svg class="w-8 h-8 text-[#5AB9CE]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+							</svg>
+						</div>
+						<h3 class="text-xl font-bold text-gray-800 mb-4 text-center">24時間トラブル対応</h3>
+						<p class="text-gray-600 leading-relaxed">
+							水漏れ・鍵紛失などの緊急トラブルに24時間対応。入居者様の不安を迅速に解消し、オーナー様の負担を軽減します。
+						</p>
+					</div>
+
+					<div class="bg-white rounded-xl shadow-lg p-8">
+						<div class="w-16 h-16 bg-[#5AB9CE]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+							<svg class="w-8 h-8 text-[#5AB9CE]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+							</svg>
+						</div>
+						<h3 class="text-xl font-bold text-gray-800 mb-4 text-center">収支の見える化</h3>
+						<p class="text-gray-600 leading-relaxed">
+							毎月の収支報告書を作成し、家賃収入・管理費・修繕費などを明確に報告。運用状況を一目で把握できます。
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 管理プラン -->
+		<section class="bg-gradient-to-br from-gray-50 to-[#5AB9CE]/5 py-16">
+			<div class="container mx-auto px-4">
+				<div class="max-w-6xl mx-auto">
+					<h2 class="text-3xl font-bold text-gray-800 mb-12 text-center">管理プラン</h2>
+					<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+						<div class="bg-white rounded-xl shadow-lg overflow-hidden">
+							<div class="bg-gray-100 px-6 py-4 text-center">
+								<h3 class="text-xl font-bold text-gray-800">ベーシック</h3>
+								<div class="mt-2">
+									<span class="text-4xl font-bold text-[#5AB9CE]">5</span>
+									<span class="text-xl text-gray-600">%</span>
+								</div>
+								<p class="text-sm text-gray-600 mt-1">家賃の5%</p>
+							</div>
+							<div class="p-6">
+								<ul class="space-y-3">
+									<li class="flex items-start">
+										<svg class="w-5 h-5 text-[#5AB9CE] mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+										</svg>
+										<span class="text-gray-700">家賃集金代行</span>
+									</li>
+									<li class="flex items-start">
+										<svg class="w-5 h-5 text-[#5AB9CE] mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+										</svg>
+										<span class="text-gray-700">月次収支報告</span>
+									</li>
+									<li class="flex items-start">
+										<svg class="w-5 h-5 text-[#5AB9CE] mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+										</svg>
+										<span class="text-gray-700">入居者対応（平日9-18時）</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-[#5AB9CE]">
+							<div class="bg-gradient-to-r from-[#5AB9CE] to-[#7DD3E8] px-6 py-4 text-center">
+								<div class="inline-block bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-white text-xs font-semibold mb-2">
+									おすすめ
+								</div>
+								<h3 class="text-xl font-bold text-white">スタンダード</h3>
+								<div class="mt-2">
+									<span class="text-4xl font-bold text-white">7</span>
+									<span class="text-xl text-white/90">%</span>
+								</div>
+								<p class="text-sm text-white/90 mt-1">家賃の7%</p>
+							</div>
+							<div class="p-6">
+								<ul class="space-y-3">
+									<li class="flex items-start">
+										<svg class="w-5 h-5 text-[#5AB9CE] mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+										</svg>
+										<span class="text-gray-700">ベーシックの全内容</span>
+									</li>
+									<li class="flex items-start">
+										<svg class="w-5 h-5 text-[#5AB9CE] mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+										</svg>
+										<span class="text-gray-700">入居者募集広告</span>
+									</li>
+									<li class="flex items-start">
+										<svg class="w-5 h-5 text-[#5AB9CE] mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+										</svg>
+										<span class="text-gray-700">内見対応</span>
+									</li>
+									<li class="flex items-start">
+										<svg class="w-5 h-5 text-[#5AB9CE] mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+										</svg>
+										<span class="text-gray-700">契約手続き代行</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="bg-white rounded-xl shadow-lg overflow-hidden">
+							<div class="bg-gray-800 px-6 py-4 text-center">
+								<h3 class="text-xl font-bold text-white">プレミアム</h3>
+								<div class="mt-2">
+									<span class="text-4xl font-bold text-[#5AB9CE]">10</span>
+									<span class="text-xl text-white/90">%</span>
+								</div>
+								<p class="text-sm text-white/90 mt-1">家賃の10%</p>
+							</div>
+							<div class="p-6">
+								<ul class="space-y-3">
+									<li class="flex items-start">
+										<svg class="w-5 h-5 text-[#5AB9CE] mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+										</svg>
+										<span class="text-gray-700">スタンダードの全内容</span>
+									</li>
+									<li class="flex items-start">
+										<svg class="w-5 h-5 text-[#5AB9CE] mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+										</svg>
+										<span class="text-gray-700">24時間トラブル対応</span>
+									</li>
+									<li class="flex items-start">
+										<svg class="w-5 h-5 text-[#5AB9CE] mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+										</svg>
+										<span class="text-gray-700">修繕工事の手配</span>
+									</li>
+									<li class="flex items-start">
+										<svg class="w-5 h-5 text-[#5AB9CE] mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+										</svg>
+										<span class="text-gray-700">定期巡回点検</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- オーナー様の声 -->
+		<section class="container mx-auto px-4 py-16">
+			<div class="max-w-6xl mx-auto">
+				<h2 class="text-3xl font-bold text-gray-800 mb-12 text-center">オーナー様の声</h2>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+					<div class="bg-white rounded-xl shadow-lg p-6">
+						<div class="flex items-center mb-4">
+							<div class="w-12 h-12 bg-[#5AB9CE]/10 rounded-full flex items-center justify-center mr-3">
+								<svg class="w-6 h-6 text-[#5AB9CE]" fill="currentColor" viewBox="0 0 20 20">
+									<path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+								</svg>
+							</div>
+							<div>
+								<p class="font-bold text-gray-800">M様</p>
+								<p class="text-sm text-gray-500">アパート1棟所有</p>
+							</div>
+						</div>
+						<p class="text-gray-600 leading-relaxed">
+							「自主管理から切り替えて本当に良かったです。空室対策も積極的に提案していただき、入居率が大幅に改善しました。」
+						</p>
+					</div>
+
+					<div class="bg-white rounded-xl shadow-lg p-6">
+						<div class="flex items-center mb-4">
+							<div class="w-12 h-12 bg-[#5AB9CE]/10 rounded-full flex items-center justify-center mr-3">
+								<svg class="w-6 h-6 text-[#5AB9CE]" fill="currentColor" viewBox="0 0 20 20">
+									<path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+								</svg>
+							</div>
+							<div>
+								<p class="font-bold text-gray-800">T様</p>
+								<p class="text-sm text-gray-500">マンション3戸所有</p>
+							</div>
+						</div>
+						<p class="text-gray-600 leading-relaxed">
+							「遠方に住んでいるため、すべてお任せできるのが助かります。毎月の報告書も分かりやすく、安心して任せられます。」
+						</p>
+					</div>
+
+					<div class="bg-white rounded-xl shadow-lg p-6">
+						<div class="flex items-center mb-4">
+							<div class="w-12 h-12 bg-[#5AB9CE]/10 rounded-full flex items-center justify-center mr-3">
+								<svg class="w-6 h-6 text-[#5AB9CE]" fill="currentColor" viewBox="0 0 20 20">
+									<path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+								</svg>
+							</div>
+							<div>
+								<p class="font-bold text-gray-800">K様</p>
+								<p class="text-sm text-gray-500">戸建て2軒所有</p>
+							</div>
+						</div>
+						<p class="text-gray-600 leading-relaxed">
+							「トラブル対応が迅速で、入居者様からのクレームもほとんどありません。長く付き合える管理会社だと感じています。」
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- CTA -->
+	<section class="bg-gradient-to-r from-[#5AB9CE] to-[#7DD3E8] py-20">
+		<div class="container mx-auto px-4 text-center">
+			<h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+				まずはお気軽にご相談ください
+			</h2>
+			<p class="text-xl text-white/90 mb-8">
+				お取引やオーナー様のご相談、無料でお見積りいたします
+			</p>
+			<div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+				<a href="tel:086-123-4567" class="bg-white text-[#5AB9CE] px-10 py-5 rounded-lg font-bold text-lg hover:bg-gray-50 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5 inline-flex items-center space-x-3 w-full sm:w-auto justify-center">
+					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+					</svg>
+					<span>086-123-4567</span>
+				</a>
+				<a href="/contact" class="bg-[#4AA8BD] text-white px-10 py-5 rounded-lg font-bold text-lg hover:bg-[#3A98AD] transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5 w-full sm:w-auto">
+					お問い合わせフォーム
+				</a>
+			</div>
+			<p class="text-white/80 mt-6 text-sm">営業時間: 9:00〜18:00（定休日：水曜日）</p>
+		</div>
+	</section>
+</Layout>
+
+<script>
+	// タブ切り替え
+	document.addEventListener('DOMContentLoaded', function() {
+		const tabs = document.querySelectorAll('.partner-tab');
+		const contents = document.querySelectorAll('.partner-content');
+
+		tabs.forEach(tab => {
+			tab.addEventListener('click', function(this: HTMLElement) {
+				const target = this.getAttribute('data-target');
+
+				// タブのスタイル更新
+				tabs.forEach(t => {
+					t.classList.remove('active', 'bg-white', 'shadow-lg', 'text-gray-800');
+					t.classList.add('text-gray-600', 'hover:text-gray-800');
+				});
+				this.classList.add('active', 'bg-white', 'shadow-lg', 'text-gray-800');
+				this.classList.remove('text-gray-600', 'hover:text-gray-800');
+
+				// コンテンツの表示切り替え
+				contents.forEach(content => {
+					if (content.id === `${target}-content`) {
+						content.classList.remove('hidden');
+						(content as HTMLElement).style.opacity = '0';
+						setTimeout(() => {
+							(content as HTMLElement).style.opacity = '1';
+						}, 10);
+					} else {
+						content.classList.add('hidden');
+					}
+				});
+			});
+		});
+	});
+</script>
+
+<style>
+	.partner-content {
+		transition: opacity 0.3s ease-in-out;
+	}
+</style>
+</Layout>

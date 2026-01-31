@@ -1,0 +1,413 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+// API Response Definitions
+interface ImageStructure {
+  main: string;
+  floorplan?: string;
+  survey?: string;
+  gallery?: string[];
+}
+
+interface RentalUnit {
+  unit_id: number;
+  building_name: string;
+  building_address: string;
+  unit_number: string;
+  floor: number;
+  room_layout: string;
+  area: string;
+  monthly_rent: string;
+  management_fee: string;
+  unit_features: { 設備: string[] };
+  images: ImageStructure;
+}
+interface WeeklyUnit {
+  unit_id: number;
+  building_name: string;
+  building_address: string;
+  unit_number: string;
+  floor: number;
+  room_layout: string;
+  area: string;
+  weekly_rate: string;
+  monthly_rate: string;
+  unit_features: { 設備: string[] };
+  images: ImageStructure;
+}
+interface SaleLand {
+  property_id: number;
+  name: string;
+  address: string;
+  land_area: string;
+  price: string;
+  price_per_tsubo: string;
+  features: { 設備: string[] };
+  images: ImageStructure;
+}
+interface SaleHouse {
+  property_id: number;
+  name: string;
+  address: string;
+  land_area: string;
+  building_area: string;
+  price: string;
+  build_year: number;
+  features: { 設備: string[] };
+  images: ImageStructure;
+}
+interface ParkingSpace {
+  parking_id: number;
+  name: string;
+  address: string;
+  count: number;
+  available: number;
+  monthly_rate: string;
+  features: { 設備: string[] };
+  images: ImageStructure;
+}
+
+interface ApiResponse<T> {
+  success: boolean;
+  count: number;
+  data: T[];
+}
+
+export async function getStaticPaths() {
+  async function fetchData<T>(endpoint: string): Promise<T[]> {
+    try {
+      const res = await fetch(`https://shigezane-functions.azurewebsites.net/api${endpoint}`);
+      if (!res.ok) return [];
+      const json: ApiResponse<T> = await res.json();
+      return json.success ? json.data : [];
+    } catch (e) {
+      console.error(`Failed to fetch ${endpoint}:`, e);
+      return [];
+    }
+  }
+
+  const getAllImages = (imgStr: ImageStructure) => {
+    const images = [];
+    if (imgStr?.main) images.push(imgStr.main);
+    if (imgStr?.floorplan) images.push(imgStr.floorplan);
+    if (imgStr?.survey) images.push(imgStr.survey);
+    if (imgStr?.gallery && Array.isArray(imgStr.gallery)) {
+      images.push(...imgStr.gallery);
+    }
+    return images.length > 0 ? images : null;
+  };
+
+  const [rentalData, weeklyData, landData, houseData, parkingData] = await Promise.all([
+      fetchData<RentalUnit>('/getrentalunits'),
+      fetchData<WeeklyUnit>('/getweeklyunits'),
+      fetchData<SaleLand>('/getlandproperties'),
+      fetchData<SaleHouse>('/gethouseproperties'),
+      fetchData<ParkingSpace>('/getparkingspaces')
+  ]);
+
+  const paths: { params: { category: string; id: string }; props: { property: any; type: string } }[] = [];
+
+  // Rental
+  rentalData.forEach(p => {
+    paths.push({ 
+        params: { category: 'rental', id: p.unit_id.toString() }, 
+        props: { 
+            property: {
+                id: p.unit_id,
+                buildingName: p.building_name,
+                address: p.building_address,
+                roomNumber: p.unit_number,
+                floor: p.floor,
+                layout: p.room_layout,
+                area: Number(p.area),
+                rent: Number(p.monthly_rent),
+                managementFee: Number(p.management_fee),
+                features: p.unit_features?.設備 || [],
+                images: getAllImages(p.images)
+            }, 
+            type: 'rental' 
+        } 
+    });
+  });
+
+  // Weekly
+  weeklyData.forEach(p => {
+    paths.push({ 
+        params: { category: 'weekly', id: p.unit_id.toString() }, 
+        props: { 
+            property: {
+                id: p.unit_id,
+                buildingName: p.building_name,
+                address: p.building_address,
+                roomNumber: p.unit_number,
+                floor: p.floor,
+                layout: p.room_layout,
+                area: Number(p.area),
+                weeklyRate: Number(p.weekly_rate),
+                monthlyRate: Number(p.monthly_rate),
+                features: p.unit_features?.設備 || [],
+                images: getAllImages(p.images)
+            }, 
+            type: 'weekly' 
+        } 
+    });
+  });
+
+   // Sale (Land)
+  landData.forEach(p => {
+      paths.push({ 
+          params: { category: 'land', id: p.property_id.toString() }, 
+          props: { 
+              property: {
+                  id: p.property_id,
+                  type: '土地',
+                  name: p.name,
+                  address: p.address,
+                  area: Number(p.land_area),
+                  price: Number(p.price),
+                  pricePerTsubo: Number(p.price_per_tsubo),
+                  features: p.features?.設備 || [],
+                  images: getAllImages(p.images)
+              }, 
+              type: 'sale' 
+          } 
+      });
+  });
+
+  // Sale (House)
+  houseData.forEach(p => {
+      paths.push({ 
+          params: { category: 'house', id: p.property_id.toString() }, 
+          props: { 
+              property: {
+                  id: p.property_id,
+                  type: '戸建',
+                  name: p.name,
+                  address: p.address,
+                  landArea: Number(p.land_area),
+                  buildingArea: Number(p.building_area),
+                  price: Number(p.price),
+                  buildYear: p.build_year,
+                  features: p.features?.設備 || [],
+                  images: getAllImages(p.images)
+              }, 
+              type: 'sale' 
+          } 
+      });
+  });
+
+  // Parking
+  parkingData.forEach(p => {
+    paths.push({ 
+        params: { category: 'parking', id: p.parking_id.toString() }, 
+        props: { 
+            property: {
+                id: p.parking_id,
+                name: p.name,
+                address: p.address,
+                spaces: p.count,
+                availableSpaces: p.available,
+                monthlyRate: Number(p.monthly_rate),
+                features: p.features?.設備 || [],
+                images: getAllImages(p.images)
+            },
+            type: 'parking'
+        } 
+    });
+  });
+
+  return paths;
+}
+
+const { property, type } = Astro.props;
+const { category } = Astro.params;
+
+// 表示用タイトルの決定
+let pageTitle = '';
+if (type === 'rental') {
+    pageTitle = `${property.buildingName} ${property.roomNumber}号室`;
+} else if (type === 'weekly') {
+    pageTitle = `${property.buildingName} ${property.roomNumber}号室 (ウィークリー)`;
+} else if (type === 'sale') {
+    pageTitle = property.name;
+} else if (type === 'parking') {
+    pageTitle = property.name;
+}
+
+const currentYear = new Date().getFullYear();
+---
+
+<Layout title={`${pageTitle} - 重実不動産`}>
+    <div class="container mx-auto px-4 py-12">
+        <div class="mb-8">
+            <a href="/" class="text-[#5AB9CE] hover:underline flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                一覧に戻る
+            </a>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="md:flex">
+                <!-- 画像エリア -->
+                <div class="md:w-1/2 p-4">
+                    <div class="space-y-4">
+                        <!-- メイン画像 -->
+                        <div class="relative w-full h-[400px] rounded-lg overflow-hidden group">
+                           {property.images && property.images.length > 0 ? (
+                                <img 
+                                    id="main-image"
+                                    src={property.images[0]}
+                                    alt={pageTitle}
+                                    class="w-full h-full object-cover transition-opacity duration-300"
+                                />
+                           ) : (
+                                <img 
+                                    src={`https://via.placeholder.com/800x600?text=No+Image`}
+                                    alt={pageTitle}
+                                    class="w-full h-full object-cover"
+                                />
+                           )}
+                        </div>
+
+                        <!-- サムネイル一覧 -->
+                        {property.images && property.images.length > 1 && (
+                            <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                                {property.images.map((img: string, index: number) => (
+                                    <button 
+                                        class={`flex-shrink-0 w-20 h-20 rounded-md overflow-hidden border-2 transition-all ${index === 0 ? 'border-[#5AB9CE] opacity-100' : 'border-transparent opacity-70 hover:opacity-100'}`}
+                                        onclick={`updateMainImage(this, '${img}')`}
+                                    >
+                                        <img 
+                                            src={img} 
+                                            alt={`Thumbnail ${index + 1}`}
+                                            class="w-full h-full object-cover"
+                                        />
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                <!-- 情報エリア -->
+                <div class="md:w-1/2 p-8">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="bg-[#5AB9CE] text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            {type === 'rental' ? '賃貸' : type === 'weekly' ? 'ウィークリー' : type === 'sale' ? '売買' : '駐車場'}
+                        </span>
+                        {property.type && (
+                            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm">
+                                {property.type}
+                            </span>
+                        )}
+                    </div>
+
+                    <h1 class="text-3xl font-bold text-gray-800 mb-6">{pageTitle}</h1>
+
+                    <div class="mb-8">
+                        {type === 'rental' && (
+                             <div class="text-3xl font-bold text-[#5AB9CE] mb-2">
+                                {property.rent.toLocaleString()}円
+                                <span class="text-base text-gray-500 font-normal ml-2">
+                                    (管理費 {property.managementFee.toLocaleString()}円)
+                                </span>
+                            </div>
+                        )}
+                        {type === 'weekly' && (
+                             <div>
+                                <div class="text-3xl font-bold text-[#5AB9CE] mb-1">
+                                    週 {property.weeklyRate.toLocaleString()}円
+                                </div>
+                                <div class="text-xl text-gray-600">
+                                    月 {property.monthlyRate.toLocaleString()}円
+                                </div>
+                            </div>
+                        )}
+                         {type === 'sale' && (
+                             <div class="text-3xl font-bold text-[#5AB9CE] mb-2">
+                                {property.price.toLocaleString()}円
+                            </div>
+                        )}
+                         {type === 'parking' && (
+                             <div class="text-3xl font-bold text-[#5AB9CE] mb-2">
+                                {property.monthlyRate.toLocaleString()}円<span class="text-sm text-gray-600">/月</span>
+                            </div>
+                        )}
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-4 text-gray-600 mb-8">
+                        <div class="flex border-b pb-2">
+                            <span class="w-24 font-bold">所在地</span>
+                            <span>{property.address}</span>
+                        </div>
+                        
+                        {(type === 'rental' || type === 'weekly') && (
+                            <>
+                                <div class="flex border-b pb-2">
+                                    <span class="w-24 font-bold">間取り</span>
+                                    <span>{property.layout}</span>
+                                </div>
+                                <div class="flex border-b pb-2">
+                                    <span class="w-24 font-bold">面積</span>
+                                    <span>{property.area}㎡</span>
+                                </div>
+                                <div class="flex border-b pb-2">
+                                    <span class="w-24 font-bold">階建/階</span>
+                                    <span>{property.floor}階</span>
+                                </div>
+                            </>
+                        )}
+
+                        {type === 'sale' && property.pricePerTsubo && (
+                             <div class="flex border-b pb-2">
+                                <span class="w-24 font-bold">坪単価</span>
+                                <span>{property.pricePerTsubo.toLocaleString()}円</span>
+                            </div>
+                        )}
+
+                        {property.features && (
+                            <div class="mt-4">
+                                <span class="font-bold block mb-2">特徴・設備</span>
+                                <div class="flex flex-wrap gap-2">
+                                    {property.features.map((feature: string) => (
+                                        <span class="bg-[#5AB9CE]/10 text-[#5AB9CE] px-3 py-1 rounded-full text-sm">
+                                            {feature}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    <button class="w-full bg-[#5AB9CE] text-white py-4 rounded-lg font-bold text-lg hover:bg-[#4AA8BD] transition-colors shadow-lg">
+                        お問い合わせする
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script is:inline>
+        function updateMainImage(btn, src) {
+            const mainImage = document.getElementById('main-image');
+            
+            // Update image source with fade effect
+            mainImage.style.opacity = '0';
+            setTimeout(() => {
+                mainImage.src = src;
+                mainImage.style.opacity = '1';
+            }, 150);
+
+            // Update active state of buttons
+            const buttons = btn.parentElement.children;
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('border-[#5AB9CE]', 'opacity-100');
+                buttons[i].classList.add('border-transparent', 'opacity-70');
+            }
+            btn.classList.remove('border-transparent', 'opacity-70');
+            btn.classList.add('border-[#5AB9CE]', 'opacity-100');
+        }
+    </script>
+</Layout>

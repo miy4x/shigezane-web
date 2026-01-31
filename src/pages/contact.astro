@@ -1,0 +1,182 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="お問い合わせ - 重実不動産">
+	<section class="bg-white py-12 border-b">
+		<div class="container mx-auto px-4">
+			<h1 class="text-3xl font-bold text-gray-800">お問い合わせ</h1>
+		</div>
+	</section>
+
+	<section class="container mx-auto px-4 py-16">
+		<div class="max-w-4xl mx-auto">
+			<!-- お問い合わせフォーム -->
+			<div class="bg-white rounded-xl shadow-md p-8 mb-8">
+				<h2 class="text-2xl font-bold text-gray-800 mb-6">お問い合わせフォーム</h2>
+				
+				<form id="contact-form" class="space-y-6">
+					<!-- お名前 -->
+					<div>
+						<label for="name" class="block text-sm font-semibold text-gray-700 mb-2">
+							お名前 <span class="text-red-500">*</span>
+						</label>
+						<input
+							type="text"
+							id="name"
+							name="name"
+							required
+							class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#5AB9CE] transition-colors"
+							placeholder="山田 太郎"
+						/>
+					</div>
+
+					<!-- 電話番号 -->
+					<div>
+						<label for="phone" class="block text-sm font-semibold text-gray-700 mb-2">
+							電話番号 <span class="text-red-500">*</span>
+						</label>
+						<input
+							type="tel"
+							id="phone"
+							name="phone"
+							required
+							class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#5AB9CE] transition-colors"
+							placeholder="090-1234-5678"
+						/>
+					</div>
+
+					<!-- メールアドレス -->
+					<div>
+						<label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
+							メールアドレス <span class="text-red-500">*</span>
+						</label>
+						<input
+							type="email"
+							id="email"
+							name="email"
+							required
+							class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#5AB9CE] transition-colors"
+							placeholder="example@example.com"
+						/>
+					</div>
+
+					<!-- お問い合わせ内容 -->
+					<div>
+						<label for="message" class="block text-sm font-semibold text-gray-700 mb-2">
+							お問い合わせ内容 <span class="text-red-500">*</span>
+						</label>
+						<textarea
+							id="message"
+							name="message"
+							required
+							rows="6"
+							class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#5AB9CE] transition-colors resize-none"
+							placeholder="お問い合わせ内容をご記入ください"
+						></textarea>
+					</div>
+
+					<!-- 送信ボタン -->
+					<div>
+						<button
+							type="submit"
+							class="w-full bg-[#5AB9CE] text-white font-semibold py-4 px-8 rounded-lg hover:bg-[#4AA8BD] transition-colors shadow-md hover:shadow-lg"
+						>
+							送信する
+						</button>
+					</div>
+
+					<!-- 注意事項 -->
+					<div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+						<p class="text-sm text-yellow-800">
+							<strong>注意:</strong> 現在、フォーム送信機能は未実装です。お急ぎの方はお電話にてお問い合わせください。
+						</p>
+					</div>
+				</form>
+			</div>
+
+			<!-- 電話でのお問い合わせ -->
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+				<div class="bg-gradient-to-br from-[#5AB9CE] to-[#7DD3E8] rounded-xl shadow-md p-8 text-white">
+					<div class="flex items-center mb-4">
+						<svg class="w-8 h-8 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+						</svg>
+						<h3 class="text-2xl font-bold">お電話でのお問い合わせ</h3>
+					</div>
+					<div class="text-4xl font-bold mb-4">
+						<a href="tel:086-123-4567" class="hover:underline">086-123-4567</a>
+					</div>
+					<div class="space-y-1 text-white/90">
+						<p>営業時間: 9:00〜18:00</p>
+						<p>定休日: 水曜日</p>
+					</div>
+				</div>
+
+				<!-- メールでのお問い合わせ -->
+				<div class="bg-white rounded-xl shadow-md p-8 border border-gray-200">
+					<div class="flex items-center mb-4">
+						<svg class="w-8 h-8 mr-3 text-[#5AB9CE]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+						</svg>
+						<h3 class="text-2xl font-bold text-gray-800">メールでのお問い合わせ</h3>
+					</div>
+					<div class="text-xl mb-4">
+						<a href="mailto:info@shigezane.example.com" class="text-[#5AB9CE] hover:underline">
+							info@shigezane.example.com
+						</a>
+					</div>
+					<p class="text-gray-600 text-sm">
+						メールでのお問い合わせは24時間受付しております。<br />
+						返信には2〜3営業日いただく場合がございます。
+					</p>
+				</div>
+			</div>
+
+			<!-- アクセス -->
+			<div class="bg-white rounded-xl shadow-md p-8">
+				<h2 class="text-2xl font-bold text-gray-800 mb-6">アクセス</h2>
+				
+				<div class="mb-6">
+					<div class="flex items-start space-x-2">
+						<svg class="w-6 h-6 text-[#5AB9CE] mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+						</svg>
+						<div>
+							<p class="font-semibold text-gray-700 mb-1">住所</p>
+							<p class="text-gray-600">〒700-0000 岡山市北区〇〇〇〇 1-2-3</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Google Maps埋め込み -->
+				<div class="aspect-video rounded-lg overflow-hidden shadow-md">
+					<iframe
+						src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3281.3962841747!2d133.9181!3d34.6551!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDM5JzE4LjQiTiAxMzPCsDU1JzA1LjIiRQ!5e0!3m2!1sja!2sjp!4v1234567890"
+						width="100%"
+						height="100%"
+						style="border:0;"
+						allowfullscreen=""
+						loading="lazy"
+						referrerpolicy="no-referrer-when-downgrade"
+					></iframe>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- フォーム送信スクリプト（デモ用） -->
+	<script>
+		const contactForm = document.getElementById('contact-form');
+		
+		if (contactForm) {
+			contactForm.addEventListener('submit', (e) => {
+				e.preventDefault();
+				
+				// デモ用のアラート
+				alert('送信機能は現在未実装です。お電話（086-123-4567）にてお問い合わせください。');
+			});
+		}
+	</script>
+</Layout>
