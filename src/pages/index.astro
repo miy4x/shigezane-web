@@ -75,27 +75,13 @@ interface ApiResponse<T> {
   data: T[];
 }
 
-// Fetch helper
-async function fetchData<T>(endpoint: string): Promise<T[]> {
-  try {
-    const res = await fetch(`https://shigezane-functions.azurewebsites.net/api${endpoint}`);
-    if (!res.ok) return [];
-    const json: ApiResponse<T> = await res.json();
-    return json.success ? json.data : [];
-  } catch (e) {
-    console.error(`Failed to fetch ${endpoint}:`, e);
-    return [];
-  }
-}
 
-// Data Fetching
-const [rentalData, weeklyData, landData, houseData, parkingData] = await Promise.all([
-    fetchData<RentalUnit>('/getrentalunits'),
-    fetchData<WeeklyUnit>('/getweeklyunits'),
-    fetchData<SaleLand>('/getlandproperties'),
-    fetchData<SaleHouse>('/gethouseproperties'),
-    fetchData<ParkingSpace>('/getparkingspaces')
-]);
+// Default empty arrays for SSG build (data fetching moved to client-side)
+const rentalData: RentalUnit[] = [];
+const weeklyData: WeeklyUnit[] = [];
+const landData: SaleLand[] = [];
+const houseData: SaleHouse[] = [];
+const parkingData: ParkingSpace[] = [];
 
 // Data Mapping
 const getAllImages = (imgStr: ImageStructure) => {
@@ -258,331 +244,22 @@ const currentYear = new Date().getFullYear();
 
 		<!-- 賃貸物件 -->
 	<div id="rental-properties" class="property-grid">
-			{rentalProperties.map((property, index) => (
-			<a href={'/property/rental/' + property.id} class="property-card block hover:shadow-xl transition-shadow">
-					<div class="relative h-64 image-slider-container group">
-						{!property.images || property.images.length === 0 ? (
-							<div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
-								<span class="text-sm font-medium">NO IMAGE</span>
-							</div>
-						) : (
-							<>
-								{property.images.map((img, i) => (
-									<img 
-										src={img} 
-										alt={`${property.buildingName} ${i + 1}`} 
-										class={`w-full h-full object-cover absolute top-0 left-0 ${i === 0 ? 'block' : 'hidden'}`}
-										data-index={i}
-									/>
-								))}
-								
-								{property.images.length > 1 && (
-									<>
-										<button class="slider-prev absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 shadow-md rounded-full p-2 transition-colors z-10" onclick="event.preventDefault();">
-											<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
-										</button>
-										<button class="slider-next absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 shadow-md rounded-full p-2 transition-colors z-10" onclick="event.preventDefault();">
-											<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-										</button>
-										<div class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded-full z-10 pointer-events-none font-medium tracking-wider shadow-sm border border-white/20">
-											<span class="current-index">1</span> / {property.images.length}
-										</div>
-									</>
-								)}
-							</>
-						)}
-						<div class="absolute top-4 left-4 bg-[#5AB9CE] text-white px-3 py-1 rounded-full text-sm font-semibold z-10 shadow-sm">
-							{property.floor}階
-						</div>
-					</div>
-					<div class="p-6">
-						<h3 class="text-xl font-bold text-gray-800 mb-2">
-							{property.buildingName} {property.roomNumber}号室
-						</h3>
-						<div class="border-b pb-4 mb-4">
-							<div class="text-3xl font-bold text-[#5AB9CE]">
-								{property.rent.toLocaleString()}円
-							</div>
-							<div class="text-sm text-gray-600">
-								管理費 {property.managementFee.toLocaleString()}円
-							</div>
-						</div>
-						<div class="grid grid-cols-3 gap-2 mb-4 text-sm">
-							<div class="flex items-start space-x-1">
-								<svg class="w-4 h-4 text-[#5AB9CE] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-								</svg>
-								<span class="text-gray-600">{property.address}</span>
-							</div>
-							<div class="flex items-start space-x-1">
-								<svg class="w-4 h-4 text-[#5AB9CE] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-								</svg>
-								<span class="text-gray-600">{property.layout}</span>
-							</div>
-							<div class="flex items-start space-x-1">
-								<svg class="w-4 h-4 text-[#5AB9CE] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
-								</svg>
-								<span class="text-gray-600">{property.area}㎡</span>
-							</div>
-						</div>
-						<div class="flex flex-wrap gap-2">
-							{property.features.map((feature) => (
-								<span class="bg-[#5AB9CE]/10 text-[#5AB9CE] px-3 py-1 rounded-full text-xs">
-									{feature}
-								</span>
-							))}
-						</div>
-					</div>
-				</a>
-			))}
+			<div class="loading" style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: #888;">読み込み中...</div>
 		</div>
 
 		<!-- ウィークリー物件 -->
 		<div id="weekly-properties" class="property-grid hidden" style="display: none;">
-			{weeklyProperties.map((property) => (
-			<a href={'/property/weekly/' + property.id} class="property-card block hover:shadow-xl transition-shadow">
-					<div class="relative h-64 image-slider-container group">
-						{!property.images || property.images.length === 0 ? (
-							<div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
-								<span class="text-sm font-medium">NO IMAGE</span>
-							</div>
-						) : (
-							<>
-								{property.images.map((img, i) => (
-									<img 
-										src={img} 
-										alt={`${property.buildingName} ${i + 1}`} 
-										class={`w-full h-full object-cover absolute top-0 left-0 ${i === 0 ? 'block' : 'hidden'}`}
-										data-index={i}
-									/>
-								))}
-								{property.images.length > 1 && (
-									<>
-										<button class="slider-prev absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 shadow-md rounded-full p-2 transition-colors z-10" onclick="event.preventDefault();">
-											<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
-										</button>
-										<button class="slider-next absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 shadow-md rounded-full p-2 transition-colors z-10" onclick="event.preventDefault();">
-											<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-										</button>
-										<div class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded-full z-10 pointer-events-none font-medium tracking-wider shadow-sm border border-white/20">
-											<span class="current-index">1</span> / {property.images.length}
-										</div>
-									</>
-								)}
-							</>
-						)}
-						<div class="absolute top-4 left-4 bg-[#7DD3E8] text-white px-3 py-1 rounded-full text-sm font-semibold z-10 shadow-sm">
-							{property.floor}階
-						</div>
-					</div>
-					<div class="p-6">
-						<h3 class="text-xl font-bold text-gray-800 mb-2">
-							{property.buildingName} {property.roomNumber}号室
-						</h3>
-						<div class="border-b pb-4 mb-4">
-							<div class="text-2xl font-bold text-[#5AB9CE]">
-								週 {property.weeklyRate.toLocaleString()}円
-							</div>
-							<div class="text-sm text-gray-600">
-								月 {property.monthlyRate.toLocaleString()}円
-							</div>
-						</div>
-						<div class="grid grid-cols-3 gap-2 mb-4 text-sm">
-							<div class="flex items-start space-x-1">
-								<svg class="w-4 h-4 text-[#5AB9CE] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-								</svg>
-								<span class="text-gray-600">{property.address}</span>
-							</div>
-							<div class="flex items-start space-x-1">
-								<svg class="w-4 h-4 text-[#5AB9CE] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-								</svg>
-								<span class="text-gray-600">{property.layout}</span>
-							</div>
-							<div class="flex items-start space-x-1">
-								<svg class="w-4 h-4 text-[#5AB9CE] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
-								</svg>
-								<span class="text-gray-600">{property.area}㎡</span>
-							</div>
-						</div>
-						<div class="flex flex-wrap gap-2">
-							{property.features.map((feature) => (
-								<span class="bg-[#7DD3E8]/10 text-[#5AB9CE] px-3 py-1 rounded-full text-xs">
-									{feature}
-								</span>
-							))}
-						</div>
-					</div>
-				</a>
-			))}
+			<div class="loading" style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: #888;">読み込み中...</div>
 		</div>
 
 		<!-- 売買物件 -->
 		<div id="sale-properties" class="property-grid hidden" style="display: none;">
-			{saleProperties.map((property) => (
-				<a 
-					href={property.type === '土地' ? '/property/land/' + property.id : '/property/house/' + property.id}
-					class="property-card block hover:shadow-xl transition-shadow"
-				>
-					<div class="relative h-64 image-slider-container group">
-						{!property.images || property.images.length === 0 ? (
-							<div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
-								<span class="text-sm font-medium">NO IMAGE</span>
-							</div>
-						) : (
-							<>
-								{property.images.map((img, i) => (
-									<img 
-										src={img} 
-										alt={`${property.name} ${i + 1}`} 
-										class={`w-full h-full object-cover absolute top-0 left-0 ${i === 0 ? 'block' : 'hidden'}`}
-										data-index={i}
-									/>
-								))}
-								{property.images.length > 1 && (
-									<>
-										<button class="slider-prev absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 shadow-md rounded-full p-2 transition-colors z-10" onclick="event.preventDefault();">
-											<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
-										</button>
-										<button class="slider-next absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 shadow-md rounded-full p-2 transition-colors z-10" onclick="event.preventDefault();">
-											<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-										</button>
-										<div class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded-full z-10 pointer-events-none font-medium tracking-wider shadow-sm border border-white/20">
-											<span class="current-index">1</span> / {property.images.length}
-										</div>
-									</>
-								)}
-							</>
-						)}
-						<div class="absolute top-4 left-4 bg-[#5AB9CE] text-white px-3 py-1 rounded-full text-sm font-semibold z-10 shadow-sm">
-							{property.type}
-						</div>
-					</div>
-					<div class="p-6">
-						<h3 class="text-xl font-bold text-gray-800 mb-2">
-							{property.name}
-						</h3>
-						<div class="border-b pb-4 mb-4">
-							<div class="text-3xl font-bold text-[#5AB9CE]">
-								{property.price.toLocaleString()}円
-							</div>
-							{property.pricePerTsubo && (
-								<div class="text-sm text-gray-600">
-									坪単価 {property.pricePerTsubo.toLocaleString()}円
-								</div>
-							)}
-							{property.buildYear && (
-								<div class="text-sm text-gray-600">
-									築{currentYear - property.buildYear}年
-								</div>
-							)}
-						</div>
-						<div class="grid grid-cols-2 gap-2 mb-4 text-sm">
-							<div class="flex items-start space-x-1">
-								<svg class="w-4 h-4 text-[#5AB9CE] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-								</svg>
-								<span class="text-gray-600">{property.address}</span>
-							</div>
-							<div class="flex items-start space-x-1">
-								<svg class="w-4 h-4 text-[#5AB9CE] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
-								</svg>
-								{property.type === '土地' ? (
-									<span class="text-gray-600">{property.area}㎡</span>
-								) : (
-									<span class="text-gray-600">土地{property.landArea}㎡ / 建物{property.buildingArea}㎡</span>
-								)}
-							</div>
-						</div>
-						<div class="flex flex-wrap gap-2">
-							{property.features.map((feature) => (
-								<span class="bg-[#5AB9CE]/10 text-[#5AB9CE] px-3 py-1 rounded-full text-xs">
-									{feature}
-								</span>
-							))}
-						</div>
-					</div>
-				</a>
-			))}
+			<div class="loading" style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: #888;">読み込み中...</div>
 		</div>
 
 		<!-- 駐車場 -->
 		<div id="parking-properties" class="property-grid hidden" style="display: none;">
-			{parkingProperties.map((property) => (
-			<a href={'/property/parking/' + property.id} class="property-card block hover:shadow-xl transition-shadow">
-					<div class="relative h-64 image-slider-container group">
-						{!property.images || property.images.length === 0 ? (
-							<div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
-								<span class="text-sm font-medium">NO IMAGE</span>
-							</div>
-						) : (
-							<>
-								{property.images.map((img, i) => (
-									<img 
-										src={img} 
-										alt={`${property.name} ${i + 1}`} 
-										class={`w-full h-full object-cover absolute top-0 left-0 ${i === 0 ? 'block' : 'hidden'}`}
-										data-index={i}
-									/>
-								))}
-								{property.images.length > 1 && (
-									<>
-										<button class="slider-prev absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 shadow-md rounded-full p-2 transition-colors z-10" onclick="event.preventDefault();">
-											<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
-										</button>
-										<button class="slider-next absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 shadow-md rounded-full p-2 transition-colors z-10" onclick="event.preventDefault();">
-											<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-										</button>
-										<div class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded-full z-10 pointer-events-none font-medium tracking-wider shadow-sm border border-white/20">
-											<span class="current-index">1</span> / {property.images.length}
-										</div>
-									</>
-								)}
-							</>
-						)}
-						<div class="absolute top-4 right-4 bg-white text-[#5AB9CE] px-3 py-1 rounded-full text-sm font-semibold z-10 shadow-sm">
-							空き{property.availableSpaces}台
-						</div>
-					</div>
-					<div class="p-6">
-						<h3 class="text-xl font-bold text-gray-800 mb-2">
-							{property.name}
-						</h3>
-						<div class="border-b pb-4 mb-4">
-							<div class="text-3xl font-bold text-[#5AB9CE]">
-								{property.monthlyRate.toLocaleString()}円/月
-							</div>
-							<div class="text-sm text-gray-600">
-								全{property.spaces}台
-							</div>
-						</div>
-						<div class="mb-4 text-sm">
-							<div class="flex items-start space-x-1">
-								<svg class="w-4 h-4 text-[#5AB9CE] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-								</svg>
-								<span class="text-gray-600">{property.address}</span>
-							</div>
-						</div>
-						<div class="flex flex-wrap gap-2">
-							{property.features.map((feature) => (
-								<span class="bg-[#5AB9CE]/10 text-[#5AB9CE] px-3 py-1 rounded-full text-xs">
-									{feature}
-								</span>
-							))}
-						</div>
-					</div>
-				</a>
-			))}
+			<div class="loading" style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: #888;">読み込み中...</div>
 		</div>
 	</section>
 
@@ -874,11 +551,321 @@ const currentYear = new Date().getFullYear();
 			});
 		});
 
+
+	// Image Helper
+	const getAllImages = (imgStr: any) => {
+		const images: string[] = [];
+		if (imgStr?.main) images.push(imgStr.main);
+		if (imgStr?.floorplan) images.push(imgStr.floorplan);
+		if (imgStr?.survey) images.push(imgStr.survey);
+		if (imgStr?.gallery && Array.isArray(imgStr.gallery)) {
+			images.push(...imgStr.gallery);
+		}
+		return images.length > 0 ? images : null;
+	};
+
+	// Render Helpers
+	const renderFeatures = (features: string[] | undefined) => {
+		if (!features || !features.length) return '';
+		return features.map(f => `
+			<span class="bg-[#5AB9CE]/10 text-[#5AB9CE] px-3 py-1 rounded-full text-xs">
+				${f}
+			</span>
+		`).join('');
+	};
+
+	const renderImages = (images: string[] | null, altBase: string) => {
+		if (!images || !images.length) {
+			return `
+				<div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
+					<span class="text-sm font-medium">NO IMAGE</span>
+				</div>
+			`;
+		}
+		
+		const imgsHtml = images.map((img, i) => `
+			<img 
+				src="${img}" 
+				alt="${altBase} ${i + 1}" 
+				class="w-full h-full object-cover absolute top-0 left-0 ${i === 0 ? 'block' : 'hidden'}"
+				data-index="${i}"
+			/>
+		`).join('');
+
+		const controlsHtml = images.length > 1 ? `
+			<button class="slider-prev absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 shadow-md rounded-full p-2 transition-colors z-10" onclick="event.preventDefault();">
+				<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+			</button>
+			<button class="slider-next absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 shadow-md rounded-full p-2 transition-colors z-10" onclick="event.preventDefault();">
+				<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+			</button>
+			<div class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded-full z-10 pointer-events-none font-medium tracking-wider shadow-sm border border-white/20">
+				<span class="current-index">1</span> / ${images.length}
+			</div>
+		` : '';
+
+		return imgsHtml + controlsHtml;
+	};
+
+	// Initialization
+	document.addEventListener('DOMContentLoaded', async () => {
+		try {
+			const [rentalRes, weeklyRes, landRes, houseRes, parkingRes] = await Promise.all([
+				fetch('https://shigezane-functions.azurewebsites.net/api/getrentalunits'),
+				fetch('https://shigezane-functions.azurewebsites.net/api/getweeklyunits'),
+				fetch('https://shigezane-functions.azurewebsites.net/api/getlandproperties'),
+				fetch('https://shigezane-functions.azurewebsites.net/api/gethouseproperties'),
+				fetch('https://shigezane-functions.azurewebsites.net/api/getparkingspaces')
+			]);
+
+			// Helper to safe json
+			const getJson = async (res: Response) => res.ok ? (await res.json()).data : [];
+
+			const rentalData = await getJson(rentalRes);
+			const weeklyData = await getJson(weeklyRes);
+			const landData = await getJson(landRes);
+			const houseData = await getJson(houseRes);
+			const parkingData = await getJson(parkingRes);
+
+			// 1. Rental
+			const rentalContainer = document.getElementById('rental-properties');
+			if (rentalContainer) {
+				rentalContainer.innerHTML = rentalData.map((p: any) => {
+					const images = getAllImages(p.images);
+					return `
+					<a href="/property/rental/${p.unit_id}" class="property-card block hover:shadow-xl transition-shadow">
+						<div class="relative h-64 image-slider-container group">
+							${renderImages(images, p.building_name)}
+							<div class="absolute top-4 left-4 bg-[#5AB9CE] text-white px-3 py-1 rounded-full text-sm font-semibold z-10 shadow-sm">
+								${p.floor}階
+							</div>
+						</div>
+						<div class="p-6">
+							<h3 class="text-xl font-bold text-gray-800 mb-2">
+								${p.building_name} ${p.unit_number}号室
+							</h3>
+							<div class="border-b pb-4 mb-4">
+								<div class="text-3xl font-bold text-[#5AB9CE]">
+									${Number(p.monthly_rent).toLocaleString()}円
+								</div>
+								<div class="text-sm text-gray-600">
+									管理費 ${Number(p.management_fee).toLocaleString()}円
+								</div>
+							</div>
+							<div class="grid grid-cols-3 gap-2 mb-4 text-sm">
+								<div class="flex items-start space-x-1">
+									<svg class="w-4 h-4 text-[#5AB9CE] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+									</svg>
+									<span class="text-gray-600">${p.building_address}</span>
+								</div>
+								<div class="flex items-start space-x-1">
+									<svg class="w-4 h-4 text-[#5AB9CE] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+									</svg>
+									<span class="text-gray-600">${p.room_layout}</span>
+								</div>
+								<div class="flex items-start space-x-1">
+									<svg class="w-4 h-4 text-[#5AB9CE] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+									</svg>
+									<span class="text-gray-600">${p.area}㎡</span>
+								</div>
+							</div>
+							<div class="flex flex-wrap gap-2">
+								${renderFeatures(p.unit_features?.設備)}
+							</div>
+						</div>
+					</a>
+					`;
+				}).join('');
+			}
+
+			// 2. Weekly
+			const weeklyContainer = document.getElementById('weekly-properties');
+			if (weeklyContainer) {
+				weeklyContainer.innerHTML = weeklyData.map((p: any) => {
+					const images = getAllImages(p.images);
+					return `
+					<a href="/property/weekly/${p.unit_id}" class="property-card block hover:shadow-xl transition-shadow">
+						<div class="relative h-64 image-slider-container group">
+							${renderImages(images, p.building_name)}
+							<div class="absolute top-4 left-4 bg-[#7DD3E8] text-white px-3 py-1 rounded-full text-sm font-semibold z-10 shadow-sm">
+								${p.floor}階
+							</div>
+						</div>
+						<div class="p-6">
+							<h3 class="text-xl font-bold text-gray-800 mb-2">
+								${p.building_name} ${p.unit_number}号室
+							</h3>
+							<div class="border-b pb-4 mb-4">
+								<div class="text-2xl font-bold text-[#5AB9CE]">
+									週 ${Number(p.weekly_rate).toLocaleString()}円
+								</div>
+								<div class="text-sm text-gray-600">
+									月 ${Number(p.monthly_rate).toLocaleString()}円
+								</div>
+							</div>
+							<div class="grid grid-cols-3 gap-2 mb-4 text-sm">
+								<div class="flex items-start space-x-1">
+									<svg class="w-4 h-4 text-[#5AB9CE] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+									</svg>
+									<span class="text-gray-600">${p.building_address}</span>
+								</div>
+								<div class="flex items-start space-x-1">
+									<svg class="w-4 h-4 text-[#5AB9CE] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+									</svg>
+									<span class="text-gray-600">${p.room_layout}</span>
+								</div>
+								<div class="flex items-start space-x-1">
+									<svg class="w-4 h-4 text-[#5AB9CE] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+									</svg>
+									<span class="text-gray-600">${p.area}㎡</span>
+								</div>
+							</div>
+							<div class="flex flex-wrap gap-2">
+								${renderFeatures(p.unit_features?.設備)}
+							</div>
+						</div>
+					</a>
+					`;
+				}).join('');
+			}
+
+			// 3. Sale (Land + House)
+			const saleContainer = document.getElementById('sale-properties');
+			if (saleContainer) {
+				const combinedSale = [
+					...landData.map((p: any) => ({ ...p, type: '土地', category: 'sale', landArea: p.land_area })),
+					...houseData.map((p: any) => ({ ...p, type: '戸建', category: 'sale', landArea: p.land_area, buildingArea: p.building_area, buildYear: p.build_year }))
+				];
+
+				saleContainer.innerHTML = combinedSale.map(p => {
+					const images = getAllImages(p.images);
+					// Calculate years
+					const currentYear = new Date().getFullYear();
+					const age = p.buildYear ? `築${currentYear - p.buildYear}年` : '';
+					const areaInfo = p.type === '土地' 
+						? `<span class="text-gray-600">${p.landArea}㎡</span>` 
+						: `<span class="text-gray-600">土地${p.landArea}㎡ / 建物${p.buildingArea}㎡</span>`;
+
+					return `
+					<a href="/property/${p.type === '土地' ? 'land' : 'house'}/${p.property_id}" class="property-card block hover:shadow-xl transition-shadow">
+						<div class="relative h-64 image-slider-container group">
+							${renderImages(images, p.name)}
+							<div class="absolute top-4 left-4 bg-[#5AB9CE] text-white px-3 py-1 rounded-full text-sm font-semibold z-10 shadow-sm">
+								${p.type}
+							</div>
+						</div>
+						<div class="p-6">
+							<h3 class="text-xl font-bold text-gray-800 mb-2">
+								${p.name}
+							</h3>
+							<div class="border-b pb-4 mb-4">
+								<div class="text-3xl font-bold text-[#5AB9CE]">
+									${Number(p.price).toLocaleString()}円
+								</div>
+								${p.price_per_tsubo ? `<div class="text-sm text-gray-600">坪単価 ${Number(p.price_per_tsubo).toLocaleString()}円</div>` : ''}
+								${age ? `<div class="text-sm text-gray-600">${age}</div>` : ''}
+							</div>
+							<div class="grid grid-cols-2 gap-2 mb-4 text-sm">
+								<div class="flex items-start space-x-1">
+									<svg class="w-4 h-4 text-[#5AB9CE] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+									</svg>
+									<span class="text-gray-600">${p.address}</span>
+								</div>
+								<div class="flex items-start space-x-1">
+									<svg class="w-4 h-4 text-[#5AB9CE] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+									</svg>
+									${areaInfo}
+								</div>
+							</div>
+							<div class="flex flex-wrap gap-2">
+								${renderFeatures(p.features?.設備)}
+							</div>
+						</div>
+					</a>
+					`;
+				}).join('');
+			}
+
+			// 4. Parking
+			const parkingContainer = document.getElementById('parking-properties');
+			if (parkingContainer) {
+				parkingContainer.innerHTML = parkingData.map((p: any) => {
+					const images = getAllImages(p.images);
+					return `
+					<a href="/property/parking/${p.parking_id}" class="property-card block hover:shadow-xl transition-shadow">
+						<div class="relative h-64 image-slider-container group">
+							${renderImages(images, p.name)}
+							<div class="absolute top-4 right-4 bg-white text-[#5AB9CE] px-3 py-1 rounded-full text-sm font-semibold z-10 shadow-sm">
+								空き${p.available}台
+							</div>
+						</div>
+						<div class="p-6">
+							<h3 class="text-xl font-bold text-gray-800 mb-2">
+								${p.name}
+							</h3>
+							<div class="border-b pb-4 mb-4">
+								<div class="text-3xl font-bold text-[#5AB9CE]">
+									${Number(p.monthly_rate).toLocaleString()}円/月
+								</div>
+								<div class="text-sm text-gray-600">
+									全${p.count}台
+								</div>
+							</div>
+							<div class="mb-4 text-sm">
+								<div class="flex items-start space-x-1">
+									<svg class="w-4 h-4 text-[#5AB9CE] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+									</svg>
+									<span class="text-gray-600">${p.address}</span>
+								</div>
+							</div>
+							<div class="flex flex-wrap gap-2">
+								${renderFeatures(p.features?.設備)}
+							</div>
+						</div>
+					</a>
+					`;
+				}).join('');
+			}
+
+			// Update Counts
+			const updateCount = (cat: string, count: number) => {
+				const badge = document.querySelector(`.property-tab[data-category="${cat}"] .text-xs`);
+				if (badge) badge.textContent = `${count}件`;
+			};
+			updateCount('rental', rentalData.length);
+			updateCount('weekly', weeklyData.length);
+			updateCount('sale', landData.length + houseData.length);
+			updateCount('parking', parkingData.length);
+
+			// Re-init sliders
+			initSliders();
+
+		} catch (e) {
+			console.error('Failed to load data:', e);
+		}
+	});
+
 	// Image Slider Logic
-	document.addEventListener('DOMContentLoaded', () => {
+	const initSliders = () => {
 		const sliders = document.querySelectorAll('.image-slider-container');
 		
 		sliders.forEach(slider => {
+			if (slider.classList.contains('slider-initialized')) return;
+            slider.classList.add('slider-initialized');
+
 			const images = slider.querySelectorAll('img[data-index]');
 			const prevBtn = slider.querySelector('.slider-prev');
 			const nextBtn = slider.querySelector('.slider-next');
@@ -947,7 +934,7 @@ const currentYear = new Date().getFullYear();
 				updateSlider('next');
 			});
 		});
-	});
+	};
 
 	// モーダル関連の要素を取得
 	const modal = document.getElementById('rental-modal');
